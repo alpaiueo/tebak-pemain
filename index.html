@@ -389,7 +389,7 @@
             const score = (isGameOver && document.getElementById('message').innerText.includes('GOAAAL')) ? currentRow : 'X';
             let shareText = `SOHIB SOCCER - Hari ${diffDays + 1} | ${score}/${maxGuesses}\n\n`;
             emojiHistory.forEach(row => { shareText += row + '\n'; });
-            shareText += `\n#SohibSoccer #WorldCup2026\nMainkan di: sohibsoccer.com`;
+            shareText += `\n#SohibSoccer #WorldCup2026\nMainkan di: tebak-pemain.vercel.app`;
             const twitterUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}`;
             window.open(twitterUrl, '_blank');
         }
