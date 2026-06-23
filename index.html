@@ -162,7 +162,7 @@
     <script>
         // --- 1. PENGATURAN TANGGAL & DATABASE PEMAIN ---
         const playerPool = [
-            'MAHREZ', 'TONEY', 'ISAK', 'NEYMAR', 'HAALAND', 'MANE', 'GYOKERES', 'TIMBER', 'RAPHINHA', 'YILDIZ', 'MUSIALA', 'DIAZ', 'PEDRI', 'DOKU', 'HAVERTZ', 'JUNIOR', 'ALLISTER', 'RICE', 'SCHICK', 'FELIX', 'SALAH', 'OLMO', 'ALVAREZ', 'SILVA', 'PULISIC', 'TROSSARD', 'SAIBARI', 'BRUYNE', 'MARMOUSH', 'THURAM', 'MARTINEZ', 'RUIZ', 'FOFANA', 'RONALDO', 'CAICEDO', 'GULER', 'GAVI', 'UNDAV', 'HEUNGMIN', 'GOMEZ', 'SEMENYO', 'SABITZER', 'EMBOLO', 'KUBO', 'LUKAKU', 'SAKA', 'CHERKI', 'GORDON', 'JACKSON', 'DEPAY', 'DEMBELE', 'GAKPO', 'ODEGAARD', 'KANE', 'MBAPPE', 'LEAO', 'RASHFORD', 'RODRI', 'ANDERSON', 'YAMAL', 'JONG', 'DOUE', 'OLISE', 'ROGERS', 'CUNHA', 'BUDIMIR', 'WATKINS', 'VARGAS', 'VALVERDE', 'MESSI', 'BARCOLA', 'ENCISO', 'NUNEZ', 'IGLESIAS', 'WIRTZ', 'SANE', 'JIMENEZ', 'DAVID', 'RAMOS', 'GIMENEZ', 'SORLOTH', 'DAWSARI', 'NDOYE', 'TORRES', 'UEDA', 'NEVES'
+            'WILLIAMS', 'TONEY', 'ISAK', 'NEYMAR', 'HAALAND', 'MANE', 'GYOKERES', 'TIMBER', 'RAPHINHA', 'YILDIZ', 'MUSIALA', 'DIAZ', 'PEDRI', 'DOKU', 'HAVERTZ', 'JUNIOR', 'ALLISTER', 'RICE', 'SCHICK', 'FELIX', 'SALAH', 'OLMO', 'ALVAREZ', 'SILVA', 'PULISIC', 'TROSSARD', 'SAIBARI', 'BRUYNE', 'MARMOUSH', 'THURAM', 'MARTINEZ', 'RUIZ', 'FOFANA', 'RONALDO', 'CAICEDO', 'GULER', 'GAVI', 'UNDAV', 'HEUNGMIN', 'GOMEZ', 'SEMENYO', 'SABITZER', 'EMBOLO', 'KUBO', 'LUKAKU', 'SAKA', 'CHERKI', 'GORDON', 'JACKSON', 'DEPAY', 'DEMBELE', 'GAKPO', 'ODEGAARD', 'KANE', 'MBAPPE', 'LEAO', 'RASHFORD', 'RODRI', 'ANDERSON', 'YAMAL', 'JONG', 'DOUE', 'OLISE', 'ROGERS', 'CUNHA', 'BUDIMIR', 'WATKINS', 'VARGAS', 'VALVERDE', 'MESSI', 'BARCOLA', 'ENCISO', 'NUNEZ', 'IGLESIAS', 'WIRTZ', 'SANE', 'JIMENEZ', 'DAVID', 'RAMOS', 'GIMENEZ', 'SORLOTH', 'DAWSARI', 'NDOYE', 'TORRES', 'UEDA', 'NEVES'
         ];
         
         // Atur tanggal peluncuran hari pertama
@@ -398,7 +398,8 @@
 
         // --- 6. FUNGSI GENERATE TEKS SHARE ---
         function getShareText() {
-            const score = (isGameOver && document.getElementById('message').innerText.includes('GOAAAL')) ? currentRow : 'X';
+            // BUG FIX: Menggunakan (currentRow + 1) agar skor baris yang di-share akurat
+            const score = (isGameOver && document.getElementById('message').innerText.includes('GOAAAL')) ? (currentRow + 1) : 'X';
             let shareText = `SOHIB SOCCER - Hari ${diffDays + 1} | ${score}/${maxGuesses}\n\n`;
             emojiHistory.forEach(row => { shareText += row + '\n'; });
             shareText += `\n#SohibSoccer #WorldCup2026\nMainkan di: https://tebak-pemain.vercel.app/`;
