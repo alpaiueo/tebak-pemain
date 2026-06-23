@@ -401,7 +401,7 @@
             const score = (isGameOver && document.getElementById('message').innerText.includes('GOAAAL')) ? currentRow : 'X';
             let shareText = `SOHIB SOCCER - Hari ${diffDays + 1} | ${score}/${maxGuesses}\n\n`;
             emojiHistory.forEach(row => { shareText += row + '\n'; });
-            shareText += `\n#SohibSoccer #WorldCup2026\nMainkan di: tebak-pemain.vercel.app`;
+            shareText += `\n#SohibSoccer #WorldCup2026\nMainkan di: https://tebak-pemain.vercel.app/`;
             return encodeURIComponent(shareText);
         }
 
