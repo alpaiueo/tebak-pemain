@@ -4,7 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SOHIB SOCCER - Tebak Pemain</title>
+
+    <meta name="description" content="Tebak nama pemain bola dunia dalam 6 kali percobaan! Game harian ala Wordle dari Sohib Soccer, pemain baru setiap hari selama World Cup 2026.">
+
+    <!-- Open Graph / Facebook / WhatsApp -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://tebak-pemain.vercel.app/">
+    <meta property="og:title" content="SOHIB SOCCER - Tebak Pemain">
+    <meta property="og:description" content="Tebak nama pemain bola dunia dalam 6 kali percobaan! Game harian ala Wordle, pemain baru setiap hari.">
+    <meta property="og:image" content="https://tebak-pemain.vercel.app/og-image.jpg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:locale" content="id_ID">
+
+    <!-- Twitter / X Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="SOHIB SOCCER - Tebak Pemain">
+    <meta name="twitter:description" content="Tebak nama pemain bola dunia dalam 6 kali percobaan! Game harian ala Wordle, pemain baru setiap hari.">
+    <meta name="twitter:image" content="https://tebak-pemain.vercel.app/og-image.jpg">
     <style>
+        html, body {
+            height: 100%;
+        }
         body {
             background-color: #121213;
             color: #ffffff;
@@ -12,10 +33,13 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            height: 100vh;
+            justify-content: flex-start;
+            min-height: 100vh;
             margin: 0;
-            overflow: hidden;
+            padding: 16px 8px;
+            box-sizing: border-box;
+            overflow-x: hidden;
+            overflow-y: auto;
         }
         h1 {
             color: #39ff14;
@@ -35,10 +59,13 @@
         }
         .row { display: grid; gap: 6px; }
         .tile {
-            width: 55px; height: 55px;
+            width: var(--tile-size, 55px);
+            height: var(--tile-size, 55px);
             border: 2px solid #3a3a3c;
             display: flex; justify-content: center; align-items: center;
-            font-size: 2rem; font-weight: bold; text-transform: uppercase;
+            font-size: calc(var(--tile-size, 55px) * 0.36);
+            font-weight: bold; text-transform: uppercase;
+            box-sizing: border-box;
         }
         .correct { background-color: #39ff14; color: #000; border-color: #39ff14; }
         .present { background-color: #ffd700; color: #000; border-color: #ffd700; }
@@ -72,6 +99,8 @@
         .btn-share-tw:hover { background-color: #1a91da; }
         .btn-share-wa { background-color: #25D366; }
         .btn-share-wa:hover { background-color: #128C7E; }
+        .btn-share-discord { background-color: #5865F2; }
+        .btn-share-discord:hover { background-color: #4752c4; }
 
         #keyboard { display: flex; flex-direction: column; gap: 8px; align-items: center; }
         .keyboard-row { display: flex; gap: 6px; }
@@ -85,6 +114,13 @@
         .key-correct { background-color: #39ff14 !important; color: black !important; }
         .key-present { background-color: #ffd700 !important; color: black !important; }
         .key-absent { background-color: #3a3a3c !important; }
+
+        @media (max-width: 420px) {
+            button.key-btn { padding: 12px 6px; font-size: 0.85rem; }
+            .keyboard-row { gap: 4px; }
+            h1 { font-size: 1.4rem; }
+            .share-buttons { flex-wrap: wrap; }
+        }
 
         /* MODAL */
         #modal-overlay {
@@ -154,6 +190,12 @@
                 </svg>
                 WhatsApp
             </button>
+            <button class="btn-share btn-share-discord" onclick="shareToDiscord()">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="white">
+                    <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8646-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3849-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.0991.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/>
+                </svg>
+                Discord
+            </button>
         </div>
     </div>
 
@@ -185,9 +227,16 @@
 
         // --- 2. SISTEM LOCAL STORAGE ---
         const storageKey = 'sohibSoccerState';
-        let savedState = JSON.parse(localStorage.getItem(storageKey));
+        let savedState = null;
+        try {
+            const rawSaved = localStorage.getItem(storageKey);
+            if (rawSaved) savedState = JSON.parse(rawSaved);
+        } catch (err) {
+            console.warn('Data localStorage rusak, mulai ulang state:', err);
+            savedState = null;
+        }
 
-        if (savedState && savedState.day === diffDays) {
+        if (savedState && savedState.day === diffDays && Array.isArray(savedState.guesses)) {
             currentRow = savedState.guesses.length;
             isGameOver = savedState.isGameOver;
             emojiHistory = savedState.emojiHistory || [];
@@ -198,10 +247,34 @@
             }
         } else {
             savedState = { day: diffDays, guesses: [], isGameOver: false, emojiHistory: [] };
-            localStorage.setItem(storageKey, JSON.stringify(savedState));
+            saveState();
+        }
+
+        function saveState() {
+            try {
+                localStorage.setItem(storageKey, JSON.stringify(savedState));
+            } catch (err) {
+                console.warn('Gagal menyimpan progres ke localStorage:', err);
+            }
         }
 
         // --- 3. INISIALISASI UI ---
+        // Hitung ukuran tile secara dinamis biar board gak overflow di layar HP
+        // buat nama pemain yang panjang (misal ANDERSON, SABITZER = 8 huruf)
+        function updateTileSize() {
+            const gap = 6;
+            const sidePadding = 24; // total padding kiri+kanan yang aman
+            const maxTile = 55;
+            const minTile = 30;
+            const availableWidth = window.innerWidth - sidePadding;
+            const rawSize = (availableWidth - (wordLength - 1) * gap) / wordLength;
+            const tileSize = Math.max(minTile, Math.min(maxTile, Math.floor(rawSize)));
+            document.documentElement.style.setProperty('--tile-size', tileSize + 'px');
+        }
+        updateTileSize();
+        window.addEventListener('resize', updateTileSize);
+
+
         document.getElementById('close-modal').addEventListener('click', () => {
             document.getElementById('modal-overlay').style.display = 'none';
             isModalOpen = false;
@@ -393,7 +466,7 @@
 
             currentGuess = '';
             savedState.emojiHistory = emojiHistory;
-            localStorage.setItem(storageKey, JSON.stringify(savedState));
+            saveState();
         }
 
         // --- 6. FUNGSI GENERATE TEKS SHARE ---
@@ -414,6 +487,48 @@
         // Fungsi Share ke WhatsApp
         function shareToWA() {
             window.open(`https://wa.me/?text=${getShareText()}`, '_blank');
+        }
+
+        // Fungsi Share ke Discord
+        // Catatan: Discord gak punya web intent resmi buat prefill teks kayak WA/Twitter,
+        // jadi teksnya disalin ke clipboard dan Discord dibuka biar user tinggal paste manual.
+        function shareToDiscord() {
+            const text = decodeURIComponent(getShareText());
+            const messageEl = document.getElementById('message');
+            const originalColor = messageEl.style.color;
+            const originalText = messageEl.innerText;
+
+            const afterCopy = () => {
+                messageEl.style.color = '#5865F2';
+                messageEl.innerText = 'Teks disalin! Tempel (paste) di Discord ya';
+                window.open('https://discord.com/app', '_blank');
+                setTimeout(() => {
+                    messageEl.innerText = originalText;
+                    messageEl.style.color = originalColor;
+                }, 3000);
+            };
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(afterCopy).catch(() => {
+                    messageEl.innerText = 'Gagal menyalin teks, coba lagi ya';
+                });
+            } else {
+                // Fallback buat browser lama yang gak dukung Clipboard API
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                textarea.style.position = 'fixed';
+                textarea.style.opacity = '0';
+                document.body.appendChild(textarea);
+                textarea.focus();
+                textarea.select();
+                try {
+                    document.execCommand('copy');
+                    afterCopy();
+                } catch (err) {
+                    messageEl.innerText = 'Gagal menyalin teks, coba lagi ya';
+                }
+                document.body.removeChild(textarea);
+            }
         }
     </script>
 </body>
